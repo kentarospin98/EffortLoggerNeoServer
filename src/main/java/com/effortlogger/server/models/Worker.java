@@ -8,13 +8,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Worker {
 
     @DatabaseField(generatedId = true)
-    private long id;
+    public long id;
 
-    @DatabaseField(canBeNull = false)
-    private String username;
+    @DatabaseField(canBeNull = false, unique = true)
+    public String username;
 
     @DatabaseField(canBeNull = false)
     private String password_hash;
+
+    public Worker() {
+    }
 
     public Worker(String username, String password) {
         this.username = username;
@@ -24,5 +27,4 @@ public class Worker {
     boolean check_password(String password) {
         return new BCryptPasswordEncoder().matches(password, this.password_hash);
     }
-
 }
