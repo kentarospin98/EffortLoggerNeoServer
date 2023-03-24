@@ -50,7 +50,7 @@ public class API {
 	@PostMapping("/worker")
 	public PostWorkerOutput post_worker(@RequestBody PostWorkerInput worker) {
 		// Create a worker object
-		Worker new_worker = new Worker(worker.username, worker.password);
+		Worker new_worker = new Worker(worker);
 
 		// Add it to the database.
 		try {
@@ -62,7 +62,7 @@ public class API {
 		}
 
 		// Return success
-		return new PostWorkerOutput("success", new_worker.id, new_worker.username);
+		return new PostWorkerOutput("success", new_worker);
 	}
 
 }
