@@ -1,4 +1,5 @@
 effortlogger.sqlite
+*.sqlite
 
 HELP.md
 target/

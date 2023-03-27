@@ -29,6 +29,7 @@ public class Worker {
     @DatabaseField(canBeNull = false)
     public String preferred_name;
 
+    // This is needed by ORMLite
     public Worker() {
     }
 
@@ -51,7 +52,7 @@ public class Worker {
         this.password_hash = new BCryptPasswordEncoder().encode(worker.password);
     }
 
-    boolean check_password(String password) {
+    public boolean check_password(String password) {
         return new BCryptPasswordEncoder().matches(password, this.password_hash);
     }
 }
