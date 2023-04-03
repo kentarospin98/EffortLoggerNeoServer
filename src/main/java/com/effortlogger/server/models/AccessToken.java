@@ -8,6 +8,12 @@ import java.util.UUID;
 
 @DatabaseTable(tableName = "access_tokens")
 public class AccessToken {
+    /*
+     * AccessToken object, stored in the access_tokens table.
+     * All fields are public.
+     * 
+     * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+     */
 
     @DatabaseField(generatedId = true)
     public long id;
@@ -24,6 +30,11 @@ public class AccessToken {
     }
 
     public AccessToken(Worker worker) {
+        /*
+         * AccessToken constructor using a Worker object.
+         * 
+         * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+         */
         this.worker = worker;
 
         // Generate a random string for the access token.

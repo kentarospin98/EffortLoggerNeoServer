@@ -7,6 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @DatabaseTable(tableName = "workers")
 public class Worker {
+    /*
+     * Worker Object. Stored in the workers table.
+     * All fields except password_hash are public.
+     */
 
     @DatabaseField(generatedId = true)
     public long id;
@@ -35,6 +39,11 @@ public class Worker {
 
     public Worker(String username, String password, String first_name, String last_name, String middle_name,
             String preferred_name) {
+        /*
+         * Worker constructor using individual fields
+         * 
+         * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+         */
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -44,6 +53,11 @@ public class Worker {
     }
 
     public Worker(PostWorkerInput worker) {
+        /*
+         * Worker constructor using PostWorkerInput object
+         * 
+         * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+         */
         this.username = worker.username;
         this.first_name = worker.first_name;
         this.last_name = worker.last_name;
@@ -52,7 +66,21 @@ public class Worker {
         this.password_hash = new BCryptPasswordEncoder().encode(worker.password);
     }
 
+    public void set_password(String password) {
+        /*
+         * Hashes the password and sets it in the pasword_hash field.
+         * 
+         * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+         */
+        this.password_hash = new BCryptPasswordEncoder().encode(password);
+    }
+
     public boolean check_password(String password) {
+        /*
+         * Checks if the passed in matches the hashed password.
+         * 
+         * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+         */
         return new BCryptPasswordEncoder().matches(password, this.password_hash);
     }
 }

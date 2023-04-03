@@ -32,6 +32,12 @@ public class API {
 	Dao<AccessToken, String> accessTokenDao;
 
 	API() {
+		/*
+		 * API Constuctor.
+		 * 
+		 * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+		 */
+
 		// Connect to the database
 		try {
 			this.connectionSource = new JdbcPooledConnectionSource("jdbc:sqlite:efforlogger.sqlite");
@@ -55,12 +61,26 @@ public class API {
 
 	@GetMapping("/")
 	public GetIndex index() {
+		/*
+		 * GET /
+		 * Always returns success
+		 * 
+		 * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+		 */
 		return new GetIndex("success");
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<PostLoginOutput> post_login(@RequestBody PostLoginInput credentials) {
+		/*
+		 * POST /login
+		 * Logs the user in and returns an access token.
+		 * 
+		 * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+		 */
+
 		List<Worker> workers;
+
 		// Get the worker in the username.
 		try {
 			workers = this.workerDao.queryForEq("username", credentials.username);
@@ -99,6 +119,13 @@ public class API {
 
 	@PostMapping("/worker")
 	public PostWorkerOutput post_worker(@RequestBody PostWorkerInput worker) {
+		/*
+		 * POST /worker
+		 * Creates a new worker, and returns the worker details.
+		 * 
+		 * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+		 */
+
 		// Create a worker object
 		Worker new_worker = new Worker(worker);
 
