@@ -147,9 +147,9 @@ public class API {
 		// Return success
 		return new PostWorkerOutput("success", new_worker);
 	}
-	
+
 	@PostMapping("/log")
-	public PostLogOutput post_log(PostLogInput log) {
+	public PostLogOutput post_log(@RequestBody PostLogInput log) {
 		Log new_log = new Log(log);
 		try {
 			this.logDao.create(new_log);
@@ -158,6 +158,5 @@ public class API {
 		}
 		return new PostLogOutput("Success", new_log);
 	}
-
 
 }

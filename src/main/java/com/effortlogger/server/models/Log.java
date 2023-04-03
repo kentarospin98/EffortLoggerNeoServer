@@ -1,6 +1,8 @@
 package com.effortlogger.server.models;
 
+import java.util.Date;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import com.effortlogger.server.api_schemas.PostLogInput;
@@ -17,13 +19,13 @@ public class Log {
     public String username;
 
     @DatabaseField(columnName = "date", canBeNull = false)
-    public LocalDateTime date;
+    public Date date;
 
     @DatabaseField(columnName = "start_time", format = "HH:mm:ss", canBeNull = false)
-    public LocalDateTime startTime;
+    public Date startTime;
 
     @DatabaseField(columnName = "end_time", format = "HH:mm:ss")
-    public LocalDateTime endTime;
+    public Date endTime;
 
     @DatabaseField(columnName = "delta_time")
     public double deltaTime;
@@ -37,90 +39,107 @@ public class Log {
     @DatabaseField(columnName = "deliverable")
     public String deliverable;
 
+    public Log() {
+    }
+
     public Log(String user) {
-    	username = user;
-    	date = LocalDateTime.now();
+        this.username = user;
+        this.date = new Date();
         start();
     }
-    
+
     public Log(PostLogInput user) {
-    	username = user.username;
-    	date = LocalDateTime.now();
+        this.username = user.username;
+        this.date = new Date();
         start();
     }
 
     // Function to set the start time
     public void start() {
-        this.startTime = LocalDateTime.now();
+        this.startTime = new Date();
     }
 
     // Function to set the end time and calculate delta time
     public void end() {
-        this.endTime = LocalDateTime.now();
-        this.deltaTime = (double) (this.endTime.toEpochSecond(null) - this.startTime.toEpochSecond(null)) / 60.0;
+        this.endTime = new Date();
+        this.deltaTime = (double) (this.endTime.toInstant().toEpochMilli()
+                - this.startTime.toInstant().toEpochMilli()) / 60000.0;
     }
 
-    //Setters
+    // Setters
     public void set_username(String un) {
-    	username = un;
+        username = un;
     }
+
     public void set_date(String d) {
-    	setFormattedDate(d);
+        setFormattedDate(d);
     }
-    public void set_startTime(LocalDateTime start) {
-    	startTime = start;
+
+    public void set_startTime(Date start) {
+        startTime = start;
     }
-    public void set_endTime(LocalDateTime end) {
-    	endTime = end;
+
+    public void set_endTime(Date end) {
+        endTime = end;
     }
+
     public void set_deltaTime(double delta) {
-    	deltaTime = delta;
+        deltaTime = delta;
     }
+
     public void set_lifeCycleStep(String step) {
-    	lifeCycleStep = step;
+        lifeCycleStep = step;
     }
+
     public void set_effortCategory(String category) {
-    	effortCategory = category;
-    }    
+        effortCategory = category;
+    }
+
     public void set_deliverable(String deliv) {
-    	deliverable = deliv;
+        deliverable = deliv;
     }
-    
-    
-    //Getters
+
+    // Getters
     public String get_username() {
-    	return username;
+        return username;
     }
+
     public String get_date() {
-    	return getFormattedDate();
+        return getFormattedDate();
     }
-    public LocalDateTime get_startTime() {
-    	return startTime;
+
+    public Date get_startTime() {
+        return startTime;
     }
-    public LocalDateTime get_endTime() {
-    	return endTime;
+
+    public Date get_endTime() {
+        return endTime;
     }
+
     public double get_deltaTime() {
-		return deltaTime;
-	}
+        return deltaTime;
+    }
+
     public String get_lifeCycleStep() {
-		return lifeCycleStep;
-	}
+        return lifeCycleStep;
+    }
+
     public String get_effortCategory() {
-		return effortCategory;
-	}
+        return effortCategory;
+    }
+
     public String get_deliverable() {
-		return deliverable;
-	}
-	
+        return deliverable;
+    }
+
     // Custom formatter for the date field
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public String getFormattedDate() {
-        return this.date.format(dateFormatter);
+        return this.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateFormatter);
     }
 
     public void setFormattedDate(String dateStr) {
-        this.date = LocalDateTime.parse(dateStr, dateFormatter);
+        this.date = Date.from(LocalDateTime.parse(dateStr, dateFormatter).atZone(ZoneId.systemDefault()).toInstant());
     }
 }

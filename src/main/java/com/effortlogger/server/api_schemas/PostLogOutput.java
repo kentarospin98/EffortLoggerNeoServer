@@ -2,6 +2,7 @@ package com.effortlogger.server.api_schemas;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import com.effortlogger.server.models.Log;
 
@@ -9,13 +10,12 @@ public class PostLogOutput {
     public String status;
     public long id;
     public String username;
-    public LocalDateTime startTime;
-    public LocalDateTime endTime;
+    public Date startTime;
+    public Date endTime;
     public double deltaTime;
     public String lifeCycleStep;
     public String effortCategory;
     public String deliverable;
-    
 
     public PostLogOutput(String status) {
         this.status = status;
