@@ -1,6 +1,9 @@
-import java.sql.SQLException;
+package com.effortlogger.server.models;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import com.effortlogger.server.api_schemas.PostLogInput;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,34 +11,40 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Log {
 
     @DatabaseField(generatedId = true)
-    private int id;
+    public int id;
 
     @DatabaseField(canBeNull = false)
-    private String username;
+    public String username;
 
     @DatabaseField(columnName = "date", canBeNull = false)
-    private LocalDateTime date;
+    public LocalDateTime date;
 
     @DatabaseField(columnName = "start_time", format = "HH:mm:ss", canBeNull = false)
-    private LocalDateTime startTime;
+    public LocalDateTime startTime;
 
     @DatabaseField(columnName = "end_time", format = "HH:mm:ss")
-    private LocalDateTime endTime;
+    public LocalDateTime endTime;
 
     @DatabaseField(columnName = "delta_time")
-    private double deltaTime;
+    public double deltaTime;
 
     @DatabaseField(columnName = "life_cycle_step")
-    private String lifeCycleStep;
+    public String lifeCycleStep;
 
     @DatabaseField(columnName = "effort_category")
-    private String effortCategory;
+    public String effortCategory;
 
     @DatabaseField(columnName = "deliverable")
-    private String deliverable;
+    public String deliverable;
 
     public Log(String user) {
     	username = user;
+    	date = LocalDateTime.now();
+        start();
+    }
+    
+    public Log(PostLogInput user) {
+    	username = user.username;
     	date = LocalDateTime.now();
         start();
     }
@@ -52,57 +61,58 @@ public class Log {
     }
 
     //Setters
-    private void set_username(String un) {
+    public void set_username(String un) {
     	username = un;
     }
-    private void set_date(String d) {
+    public void set_date(String d) {
     	setFormattedDate(d);
     }
-    private void set_startTime(LocalDateTime start) {
+    public void set_startTime(LocalDateTime start) {
     	startTime = start;
     }
-    private void set_endTime(LocalDateTime end) {
+    public void set_endTime(LocalDateTime end) {
     	endTime = end;
     }
-    private void set_deltaTime(double delta) {
+    public void set_deltaTime(double delta) {
     	deltaTime = delta;
     }
-    private void set_lifeCycleStep(String step) {
+    public void set_lifeCycleStep(String step) {
     	lifeCycleStep = step;
     }
-    private void set_effortCategory(String category) {
+    public void set_effortCategory(String category) {
     	effortCategory = category;
     }    
-    private void set_deliverable(String deliv) {
+    public void set_deliverable(String deliv) {
     	deliverable = deliv;
     }
     
     
     //Getters
-    private String get_username() {
+    public String get_username() {
     	return username;
     }
-    private String get_date() {
+    public String get_date() {
     	return getFormattedDate();
     }
-    private LocalDateTime get_startTime() {
+    public LocalDateTime get_startTime() {
     	return startTime;
     }
-	private LocalDateTime get_endTime() {
+    public LocalDateTime get_endTime() {
     	return endTime;
     }
-	private double get_deltaTime() {
+    public double get_deltaTime() {
 		return deltaTime;
 	}
-	private String get_lifeCycleStep() {
+    public String get_lifeCycleStep() {
 		return lifeCycleStep;
 	}
-	private String get_effortCategory() {
+    public String get_effortCategory() {
 		return effortCategory;
 	}
-	private String get_deliverable() {
+    public String get_deliverable() {
 		return deliverable;
 	}
+	
     // Custom formatter for the date field
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

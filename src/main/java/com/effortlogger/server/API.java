@@ -18,8 +18,11 @@ import com.effortlogger.server.api_schemas.PostLoginInput;
 import com.effortlogger.server.api_schemas.PostLoginOutput;
 import com.effortlogger.server.api_schemas.PostWorkerInput;
 import com.effortlogger.server.api_schemas.PostWorkerOutput;
+import com.effortlogger.server.api_schemas.PostLogInput;
+import com.effortlogger.server.api_schemas.PostLogOutput;
 import com.effortlogger.server.models.AccessToken;
 import com.effortlogger.server.models.Worker;
+import com.effortlogger.server.models.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -30,6 +33,7 @@ public class API {
 	JdbcPooledConnectionSource connectionSource;
 	Dao<Worker, String> workerDao;
 	Dao<AccessToken, String> accessTokenDao;
+	Dao<Log, String> logDao;
 
 	API() {
 		// Connect to the database
@@ -48,6 +52,8 @@ public class API {
 			this.workerDao = DaoManager.createDao(connectionSource, Worker.class);
 			TableUtils.createTableIfNotExists(connectionSource, AccessToken.class);
 			this.accessTokenDao = DaoManager.createDao(connectionSource, AccessToken.class);
+			TableUtils.createTableIfNotExists(connectionSource, Log.class);
+			this.logDao = DaoManager.createDao(connectionSource, Log.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -114,5 +120,17 @@ public class API {
 		// Return success
 		return new PostWorkerOutput("success", new_worker);
 	}
+	
+	@PostMapping("/log")
+	public PostLogOutput post_log(PostLogInput log) {
+		Log new_log = new Log(log);
+		try {
+			this.logDao.create(new_log);
+		} catch (SQLException e) {
+			return new PostLogOutput("Failed to create new log");
+		}
+		return new PostLogOutput("Success", new_log);
+	}
+
 
 }
