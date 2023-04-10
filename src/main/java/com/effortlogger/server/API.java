@@ -150,6 +150,14 @@ public class API {
 
 	@PostMapping("/log")
 	public PostLogOutput post_log(@RequestBody PostLogInput log) {
+		/*
+		 * POST /log
+		 * Creates a log, and returns it
+		 * 
+		 * TODO: Check user's login status
+		 * 
+		 * @author Jordan Eiselt <jeiselt@asu.edu>
+		 */
 		Log new_log = new Log(log);
 		try {
 			this.logDao.create(new_log);

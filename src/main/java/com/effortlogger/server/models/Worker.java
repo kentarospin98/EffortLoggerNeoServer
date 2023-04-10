@@ -10,6 +10,8 @@ public class Worker {
     /*
      * Worker Object. Stored in the workers table.
      * All fields except password_hash are public.
+     * 
+     * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
      */
 
     @DatabaseField(generatedId = true)

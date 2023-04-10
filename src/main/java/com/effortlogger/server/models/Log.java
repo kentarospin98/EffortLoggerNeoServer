@@ -11,6 +11,14 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "logs")
 public class Log {
+    /*
+     * Log object. Stored in the logs table.
+     * All fields are public.
+     * 
+     * @author Jordan Eiselt <jeiselt@asu.edu>
+     * 
+     * @author Vikriti Lokegaonkar <dlokegao@asu.edu>
+     */
 
     @DatabaseField(generatedId = true)
     public int id;
@@ -26,9 +34,6 @@ public class Log {
 
     @DatabaseField(columnName = "end_time", format = "HH:mm:ss")
     public Date endTime;
-
-    @DatabaseField(columnName = "delta_time")
-    public double deltaTime;
 
     @DatabaseField(columnName = "life_cycle_step")
     public String lifeCycleStep;
@@ -54,82 +59,24 @@ public class Log {
         start();
     }
 
-    // Function to set the start time
     public void start() {
+        /*
+         * Method to set the start time
+         * 
+         * @author Jordan Eiselt <jeiselt@asu.edu>
+         */
         this.startTime = new Date();
     }
 
-    // Function to set the end time and calculate delta time
     public void end() {
+        /*
+         * Method to set the end time and calculate delta time
+         * 
+         * @author Jordan Eiselt <jeiselt@asu.edu>
+         */
         this.endTime = new Date();
-        this.deltaTime = (double) (this.endTime.toInstant().toEpochMilli()
-                - this.startTime.toInstant().toEpochMilli()) / 60000.0;
-    }
-
-    // Setters
-    public void set_username(String un) {
-        username = un;
-    }
-
-    public void set_date(String d) {
-        setFormattedDate(d);
-    }
-
-    public void set_startTime(Date start) {
-        startTime = start;
-    }
-
-    public void set_endTime(Date end) {
-        endTime = end;
-    }
-
-    public void set_deltaTime(double delta) {
-        deltaTime = delta;
-    }
-
-    public void set_lifeCycleStep(String step) {
-        lifeCycleStep = step;
-    }
-
-    public void set_effortCategory(String category) {
-        effortCategory = category;
-    }
-
-    public void set_deliverable(String deliv) {
-        deliverable = deliv;
-    }
-
-    // Getters
-    public String get_username() {
-        return username;
-    }
-
-    public String get_date() {
-        return getFormattedDate();
-    }
-
-    public Date get_startTime() {
-        return startTime;
-    }
-
-    public Date get_endTime() {
-        return endTime;
-    }
-
-    public double get_deltaTime() {
-        return deltaTime;
-    }
-
-    public String get_lifeCycleStep() {
-        return lifeCycleStep;
-    }
-
-    public String get_effortCategory() {
-        return effortCategory;
-    }
-
-    public String get_deliverable() {
-        return deliverable;
+        // this.deltaTime = (double) (this.endTime.toInstant().toEpochMilli()
+        // - this.startTime.toInstant().toEpochMilli()) / 60000.0;
     }
 
     // Custom formatter for the date field
